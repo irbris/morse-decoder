@@ -1,4 +1,4 @@
-const MORSE_TABLE = {
+const ref = {
     '.-':     'a',
     '-...':   'b',
     '-.-.':   'c',
@@ -35,10 +35,24 @@ const MORSE_TABLE = {
     '---..':  '8',
     '----.':  '9',
     '-----':  '0',
+    '**********': ' '
 };
 
 function decode(expr) {
-    // write your solution here
+  // split string into segments 10 characters
+  const arrTenSymbols = expr.match(/.{10}/g)
+  // remove 0 from start of string
+  const arrDeleteZeros = arrTenSymbols.map(el => el.replace(/^0+/, ''));
+  // replace code to letters 
+  const arrLetters = arrDeleteZeros
+       .map(el => el.match(/.{2}/g)
+       .map(letter => letter
+            .replace(/11/, '-')
+            .replace(/10/, '.')
+            .replace(/^\*{10}/, ' '))
+            .join(''));
+  const res = arrLetters.map(b => ref[b]).join('');
+  return res;
 }
 
 module.exports = {
